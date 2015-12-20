@@ -143,7 +143,6 @@ end
 
 def apply_commands(array, commands)
   commands.each { |command| command.apply(array) }
-  puts "[debug] #{array.class}/#rects = #{array.rects.length}"
   array
 end
 
