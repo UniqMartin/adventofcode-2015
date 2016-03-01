@@ -1,6 +1,6 @@
 # Advent of Code 2015 - Day 10
 
-INPUT_DIGITS = "3113322113"
+INPUT_DIGITS = "3113322113".freeze
 
 def expand_once(digits)
   digits.chars.chunk { |e| e }.map { |e, l| "#{l.length}#{e}" }.join

@@ -97,7 +97,7 @@ class GateBuilder
     when UNARY_REGEXP  then [output] + Regexp.last_match.values_at(1, 2)
     when VALUE_REGEXP  then [output, "VALUE"] + Regexp.last_match.values_at(1)
     else
-      fail "Not recognized: #{line}"
+      raise "Not recognized: #{line}"
     end
   end
 

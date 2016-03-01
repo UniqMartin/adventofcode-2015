@@ -6,7 +6,7 @@ end
 
 class Range
   def empty?
-    size == 0
+    size.zero?
   end
 
   def intersect(other)
