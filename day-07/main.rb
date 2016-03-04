@@ -126,6 +126,18 @@ class Circuit
     self
   end
 
+  def dump_graph
+    node_index = 0
+    node_id = Hash.new { |h, k| h[k] = format("N_%04d", node_index += 1) }
+
+    puts "digraph G {"
+    gates.each do |gate_output, gate|
+      dump_graph_gate(node_id, gate_output, gate)
+    end
+    puts "}"
+    exit 0
+  end
+
   def eval(name)
     gates[name].eval(self)
   end
@@ -134,13 +146,56 @@ class Circuit
     gates.each_value(&:flush)
     self
   end
+
+  private
+
+  def dump_graph_gate(node_id, gate_output, gate)
+    ovar_node = node_id["var:#{gate_output}"]
+    gate_node = node_id["gate:#{gate_output}"]
+    gate_label = gate.op.to_s.sub(/^eval_/, "").upcase
+
+    puts "  #{ovar_node} [share=circle,label=\"#{gate_output}\"];"
+    puts "  #{gate_node} [shape=box,label=\"#{gate_label}\"];"
+    puts "  #{gate_node} -> #{ovar_node};"
+
+    dump_graph_gate_inputs(node_id, gate_output, gate.input, gate_node)
+  end
+
+  def dump_graph_gate_inputs(node_id, gate_output, gate_inputs, gate_node)
+    is_unary = (gate_inputs.size == 1)
+
+    gate_inputs.each_with_index do |input, index|
+      edge_extra = is_unary ? "" : " [label=\"##{index + 1}\"]"
+      case input
+      when Constant
+        const_node = node_id["const:#{gate_output}/#{index}"]
+        puts "  #{const_node} [shape=octagon,label=\"= #{input.value}\"];"
+        puts "  #{const_node} -> #{gate_node}#{edge_extra};"
+      when Variable
+        ivar_node = node_id["var:#{input.name}"]
+        puts "  #{ivar_node} -> #{gate_node}#{edge_extra};"
+      end
+    end
+  end
 end
 
-def main
+def read_circuit
   circuit = Circuit.new
 
   gates = read_input.split("\n").reject(&:empty?)
   gates.each { |line| circuit.add_gate(line) }
+
+  circuit
+end
+
+def dump_graph_and_exit(circuit)
+  circuit.dump_graph
+  exit 0
+end
+
+def main
+  circuit = read_circuit
+  dump_graph_and_exit(circuit) if ARGV == %w[--graph]
 
   a_one = circuit.eval("a")
   a_two = circuit.flush.add_gate("#{a_one} -> b").eval("a")
