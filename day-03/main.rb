@@ -1,5 +1,7 @@
 # Advent of Code 2015 - Day 3
 
+require "set"
+
 def read_input
   File.read(File.expand_path("../input.txt", __FILE__))
 end
@@ -13,7 +15,7 @@ end
 def walk(route)
   x = 0
   y = 0
-  trail = [[x, y]]
+  trail = [[x, y]].to_set
 
   route.each do |char|
     case char
@@ -32,15 +34,15 @@ def walk_with_robo_santa(route)
   route_santa = route.select_with_index(&:even?)
   route_robo_santa = route.select_with_index(&:odd?)
 
-  walk(route_santa) + walk(route_robo_santa)
+  walk(route_santa) | walk(route_robo_santa)
 end
 
 def main
   input = read_input.tr("^\\^v><", "").chars # limit to valid characters
   input.extend(SelectWithIndexExtension)
 
-  num_solo = walk(input).uniq.length
-  num_with_robo = walk_with_robo_santa(input).uniq.length
+  num_solo = walk(input).count
+  num_with_robo = walk_with_robo_santa(input).count
 
   puts "Part One: #{num_solo}" # unique houses visited (solo route)
   puts "Part Two: #{num_with_robo}" # unique houses visited (with Robo-Santa)
