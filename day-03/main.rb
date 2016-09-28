@@ -10,10 +10,10 @@ module SelectWithIndexExtension
   end
 end
 
-def walk(route, start = [0, 0])
+def walk(route)
   x = 0
   y = 0
-  trail = [start]
+  trail = [[x, y]]
 
   route.each do |char|
     case char
