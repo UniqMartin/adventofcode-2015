@@ -12,12 +12,12 @@ module SelectWithIndexExtension
   end
 end
 
-def walk(route)
+def walk(instructions)
   x = 0
   y = 0
   trail = [[x, y]].to_set
 
-  route.each do |char|
+  instructions.each do |char|
     case char
     when "^" then y -= 1
     when "v" then y += 1
@@ -30,22 +30,22 @@ def walk(route)
   trail
 end
 
-def walk_with_robo_santa(route)
-  route_santa = route.select_with_index(&:even?)
-  route_robo_santa = route.select_with_index(&:odd?)
+def walk_with_robo_santa(instructions)
+  instructions_real_santa = instructions.select_with_index(&:even?)
+  instructions_robo_santa = instructions.select_with_index(&:odd?)
 
-  walk(route_santa) | walk(route_robo_santa)
+  walk(instructions_real_santa) | walk(instructions_robo_santa)
 end
 
 def main
-  input = read_input.tr("^\\^v><", "").chars # limit to valid characters
-  input.extend(SelectWithIndexExtension)
+  instructions = read_input.tr("^\\^v><", "").chars # limit to valid characters
+  instructions.extend(SelectWithIndexExtension)
 
-  num_solo = walk(input).count
-  num_with_robo = walk_with_robo_santa(input).count
+  part_one = walk(instructions).count
+  part_two = walk_with_robo_santa(instructions).count
 
-  puts "Part One: #{num_solo}" # unique houses visited (solo route)
-  puts "Part Two: #{num_with_robo}" # unique houses visited (with Robo-Santa)
+  puts "Part One: #{part_one}" # unique houses visited (solo route)
+  puts "Part Two: #{part_two}" # unique houses visited (with Robo-Santa)
 end
 
 main if "main" == to_s
