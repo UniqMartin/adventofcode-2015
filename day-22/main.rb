@@ -44,7 +44,7 @@ class Boss < Character
       when "Hit Points" then hit_points = value.to_i
       when "Damage"     then damage = value.to_i
       else
-        raise "Unrecognized boss stat '#{key}."
+        raise "Unrecognized boss stat '#{key}'."
       end
     end
 
