@@ -16,20 +16,22 @@ class AmityMap:
     """Map of people and their mutual amities (not symmetric)."""
 
     # Regular expression for parsing amity pairs from the input file.
-    SEATING_REGEXP = re.compile(r'^(.+) would (gain|lose) (\d+) happiness '
-                                r'units by sitting next to (.+)\.$')
+    SEATING_REGEXP = re.compile(r'^(?P<foo>.+) would (?P<sign>gain|lose) '
+                                r'(?P<happiness>\d+) happiness units by '
+                                r'sitting next to (?P<bar>.+)\.$')
 
     @classmethod
     def from_lines(cls, lines):
         """Initialize a map from lines read from the input file."""
         amity_map = cls()
         for line in lines:
-            foo, *relationsship, bar = cls.SEATING_REGEXP.search(line).groups()
-            if relationsship[0] == 'gain':
-                happiness = +int(relationsship[1])
-            else:
-                happiness = -int(relationsship[1])
-            amity_map.add_amity_pair(foo, bar, happiness)
+            match = cls.SEATING_REGEXP.search(line)
+            happiness = int(match.group('happiness'))
+            if match.group('sign') == 'lose':
+                happiness *= -1
+            amity_map.add_amity_pair(match.group('foo'),
+                                     match.group('bar'),
+                                     happiness)
 
         return amity_map
 
