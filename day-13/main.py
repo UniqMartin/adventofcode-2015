@@ -48,11 +48,9 @@ class AmityMap:
 
     def add_self(self):
         """Add a neutral (in terms of amity) self to the map."""
-        num_others = len(self.names)
-        self_id = self.names.setdefault('Self', num_others)
-        for other_id in range(num_others):
-            self.amity[(self_id, other_id)] = 0
-            self.amity[(other_id, self_id)] = 0
+        for other in list(self.names):
+            self.add_amity_pair('Self', other, 0)
+            self.add_amity_pair(other, 'Self', 0)
 
         # Simplify chaining method calls.
         return self
