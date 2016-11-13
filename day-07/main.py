@@ -11,7 +11,7 @@ def read_input():
     return open(file).read().splitlines()
 
 
-class Literal(object):
+class Literal:
     """Literal with an integer value."""
 
     def __init__(self, value):
@@ -19,7 +19,7 @@ class Literal(object):
         self.value = value
 
 
-class Variable(object):
+class Variable:
     """Variable with a name."""
 
     def __init__(self, name):
@@ -27,7 +27,7 @@ class Variable(object):
         self.name = name
 
 
-class Gate(object):
+class Gate:
     """Gate representing a constant, variable, or bit-wise operation."""
 
     # Regular expression for parsing gate expressions.
@@ -95,7 +95,7 @@ class Gate(object):
             return circuit.eval(operand.name)
 
 
-class Circuit(object):
+class Circuit:
     """Logic circuit represented by a bunch of named gates."""
 
     # Regular expression for parsing gates from the input file.

@@ -11,7 +11,7 @@ def read_input():
     return open(file).read().splitlines()
 
 
-class Rect(object):
+class Rect:
     """Rectangular region represented as a pair of ranges."""
 
     def __init__(self, x_range, y_range):
@@ -26,7 +26,7 @@ class Rect(object):
                 yield x, y
 
 
-class Command(object):
+class Command:
     """Command used for updating light arrays."""
 
     # Regular expression for parsing commands from the input file.
@@ -50,7 +50,7 @@ class Command(object):
         self.rect = rect
 
 
-class LightArray(object):
+class LightArray:
     """Abstract rectangular light array that can be updated with commands."""
 
     def __init__(self, width=1000, height=1000):

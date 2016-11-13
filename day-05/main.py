@@ -16,7 +16,7 @@ def count_if(predicate, iterable):
     return sum(1 for item in iterable if predicate(item))
 
 
-class RulesOne(object):
+class RulesOne:
     """Helper for checking words against the 1st set of niceness rules."""
 
     # 1st rule: At least three vowels.
@@ -36,7 +36,7 @@ class RulesOne(object):
                 not cls._RULE_3.search(word))
 
 
-class RulesTwo(object):
+class RulesTwo:
     """Helper for checking words against the 2nd set of niceness rules."""
 
     # 1st rule: Two consecutive letters at least twice (no overlap).
