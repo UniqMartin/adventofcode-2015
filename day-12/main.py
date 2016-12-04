@@ -2,14 +2,12 @@
 
 import json
 import numbers
-import os
+from pathlib import Path
 
 
 def read_input():
     """Read input file."""
-    base = os.path.abspath(os.path.dirname(__file__))
-    file = os.path.join(base, 'input.json')
-    return open(file).read()
+    return Path(__file__).with_name('input.json').read_text()
 
 
 def traverse_json(data, filter=None):

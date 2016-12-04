@@ -1,14 +1,12 @@
 """Advent of Code 2015 - Day 3."""
 
-import os
 import re
+from pathlib import Path
 
 
 def read_input():
     """Read input file, return string, and drop unexpected characters."""
-    base = os.path.abspath(os.path.dirname(__file__))
-    file = os.path.join(base, 'input.txt')
-    text = open(file).read()
+    text = Path(__file__).with_name('input.txt').read_text()
     return re.sub(r'[^<>^v]', '', text)
 
 

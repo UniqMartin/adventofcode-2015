@@ -1,15 +1,13 @@
 """Advent of Code 2015 - Day 14."""
 
 import itertools
-import os
 import re
+from pathlib import Path
 
 
 def read_input():
     """Read input file and split into individual lines returned as a list."""
-    base = os.path.abspath(os.path.dirname(__file__))
-    file = os.path.join(base, 'input.txt')
-    return open(file).read().splitlines()
+    return Path(__file__).with_name('input.txt').read_text().splitlines()
 
 
 class Reindeer:
